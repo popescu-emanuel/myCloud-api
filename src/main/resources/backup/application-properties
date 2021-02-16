@@ -1,0 +1,43 @@
+### Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+#spring.datasource.url=jdbc:postgresql://postgres:5432/myCloud
+#spring.datasource.username=postgres
+#spring.datasource.password=qq11qq11
+#
+## Hibernate ddl auto (create, create-drop, validate, update)
+#spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+##spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation= true
+#spring.jpa.hibernate.ddl-auto=update
+#spring.jpa.open-in-view=true
+#spring.jpa.show-sql=false
+#server.error.whitelabel.enabled=false
+#
+## JWT Properties
+#myCloud.app.jwtSecret=myCloudSecretKey
+#myCloud.app.jwtExpirationMs=86400000
+#
+### MULTIPART (MultipartProperties)
+## Enable multipart uploads
+#spring.servlet.multipart.enabled=true
+#
+## Threshold after which files are written to disk.
+#spring.servlet.multipart.file-size-threshold=2KB
+#
+## Max file size.
+#spring.servlet.multipart.max-file-size=200MB
+#
+## Max Request Size
+#spring.servlet.multipart.max-request-size=215MB
+#
+### File Storage Properties
+## All files uploaded through the REST API will be stored in this directory
+#file.upload-dir=H:/CloudFiles
+#file.keys-dir=H:/CloudKeys
+#
+### Credentials Properties
+#credentials.email=popescu.emanuel24@yahoo.com
+#credentials.password=anotherPassword
+#
+### Logging Properties
+#logging.level.fmi.unibuc.mycloud.MyCloudApplicationTests.=WARN
+#spring.output.ansi.enabled=always
+#logging.pattern.console=%clr(%d{HH:mm:ss.SSS}){faint} %clr(%-5p) %clr(%-40.40logger{0}){faint} %clr(:){red} %clr(%m){faint}%n

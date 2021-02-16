@@ -1,0 +1,317 @@
+{
+	"info": {
+		"_postman_id": "5a928edc-1213-4efe-bbaf-5956017076a1",
+		"name": "Dizertatie",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Upload single file",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/Ioan-Emanuel Popescu/Downloads/Pro Spring 5, 5th Edition.pdf"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/uploadFile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"uploadFile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload multiple files",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "files",
+							"type": "file",
+							"src": [
+								"/C:/Users/Ioan-Emanuel Popescu/Downloads/Descriere arhitecturala.pdf",
+								"/C:/Users/Ioan-Emanuel Popescu/Downloads/Spring in Action, 5th Edition.pdf",
+								"/C:/Users/Ioan-Emanuel Popescu/Downloads/Pro Spring 5, 5th Edition.pdf"
+							]
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/uploadMultipleFiles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"uploadMultipleFiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Download file",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwb3Blc2N1LmVtYW51ZWwyNEB5YWhvby5jb20iLCJleHAiOjE1OTk3MDU3NzIsImlhdCI6MTU5OTY2OTc3Mn0.65nnz--8H5Lg_Cup4pMRx7eP_T8KPyOIGoQ5AF-y_SQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/downloadFile/Adeverinta medicala.pdf",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"downloadFile",
+						"Adeverinta medicala.pdf"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove file",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwb3Blc2N1LmVtYW51ZWwyNEB5YWhvby5jb20iLCJleHAiOjE1OTk3MDU3NzIsImlhdCI6MTU5OTY2OTc3Mn0.65nnz--8H5Lg_Cup4pMRx7eP_T8KPyOIGoQ5AF-y_SQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/removeFile/Adeverinta medicala.pdf",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"removeFile",
+						"Adeverinta medicala.pdf"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload file",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwb3Blc2N1LmVtYW51ZWwyNEB5YWhvby5jb20iLCJleHAiOjE1OTk3MDU3NzIsImlhdCI6MTU5OTY2OTc3Mn0.65nnz--8H5Lg_Cup4pMRx7eP_T8KPyOIGoQ5AF-y_SQ",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/Ioan-Emanuel Popescu/Desktop/Acte Denisa/Adeverinta medicala.pdf"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/uploadFile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"uploadFile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test token",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwb3Blc2N1LmVtYW51ZWwyNEB5YWhvby5jb20iLCJleHAiOjE1OTk3MDU3NzIsImlhdCI6MTU5OTY2OTc3Mn0.65nnz--8H5Lg_Cup4pMRx7eP_T8KPyOIGoQ5AF-y_SQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/testToken",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"testToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"popescu.emanuel24@yahoo.com\",\r\n    \"confirmEmail\":\"popescu.emanuel24@yahoo.com\",\r\n    \"password\":\"anotherPassword\",\r\n    \"confirmPassword\":\"anotherPassword\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}/register",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List all files",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{localhost}}/listAllFiles",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"listAllFiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recompute integrity keys",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwb3Blc2N1LmVtYW51ZWwyNEB5YWhvby5jb20iLCJleHAiOjE1OTk3MDU3NzIsImlhdCI6MTU5OTY2OTc3Mn0.65nnz--8H5Lg_Cup4pMRx7eP_T8KPyOIGoQ5AF-y_SQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "password",
+							"value": "qq11qq11",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/recomputeIntegrityKeys",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"recomputeIntegrityKeys"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"user2@gmail.com\",\r\n    \"password\":\"user\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localhost}}/authenticate",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"authenticate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhost}}/listAllUsers",
+					"host": [
+						"{{localhost}}"
+					],
+					"path": [
+						"listAllUsers"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
