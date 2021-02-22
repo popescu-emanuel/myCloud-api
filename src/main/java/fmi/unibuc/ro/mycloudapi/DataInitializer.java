@@ -105,6 +105,7 @@ public class DataInitializer implements CommandLineRunner {
         initializeAccount("admin@gmail.com", "qq11qq11", SubscriptionType.PAID, allRights);
         initializeAccount("moderator@gmail.com", "qq11qq11", SubscriptionType.BASIC, Set.of(moderatorRole));
         initializeAccount("user@gmail.com", "qq11qq11", SubscriptionType.BASIC, Set.of(userRole));
+        initializeAccount("test@gmail.com", "testPassword", SubscriptionType.BASIC, Set.of(userRole));
         log.info("Accounts initialized");
 
     }

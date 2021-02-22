@@ -42,8 +42,4 @@ public class Base64EncodingTests {
 
     }
 
-
-
-
-
 }

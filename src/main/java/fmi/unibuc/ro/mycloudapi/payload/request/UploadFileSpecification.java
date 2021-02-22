@@ -9,6 +9,6 @@ import java.util.List;
 
 @Data
 public class UploadFileSpecification implements Serializable {
-    MultipartFile file;
-    List<String> breadcrumb = new ArrayList<>();
+    public MultipartFile file;
+    public List<String> breadcrumb = new ArrayList<>();
 }

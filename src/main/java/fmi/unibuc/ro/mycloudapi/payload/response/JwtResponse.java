@@ -2,10 +2,11 @@ package fmi.unibuc.ro.mycloudapi.payload.response;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class JwtResponse {
+public class JwtResponse implements Serializable {
 	private static final String type = "Bearer";
 	private String token;
 	private Long id;
@@ -18,5 +19,4 @@ public class JwtResponse {
 		this.email = email;
 		this.roles = roles;
 	}
-
 }

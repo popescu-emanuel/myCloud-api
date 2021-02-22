@@ -13,10 +13,6 @@ import java.util.Arrays;
 public class ByteOperationsTests {
 
     @Test
-    void contextLoads() {
-    }
-
-    @Test
     void givenRandom128bitNumber_whenAddAndRemoveOne_thenSameNumber(){
         SecureRandom random = new SecureRandom();
         byte[] random128bitKey = new byte[16]; // 128 bits are converted to 16 bytes;
