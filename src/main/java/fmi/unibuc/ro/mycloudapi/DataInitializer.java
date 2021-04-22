@@ -91,9 +91,9 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void initAccounts() {
-        final Role adminRole = initializeRole(ERole.ROLE_ADMIN);
-        final Role userRole = initializeRole(ERole.ROLE_USER);
-        final Role moderatorRole = initializeRole(ERole.ROLE_MODERATOR);
+        final Role adminRole = initializeRole(ERole.ADMIN);
+        final Role userRole = initializeRole(ERole.USER);
+        final Role moderatorRole = initializeRole(ERole.MODERATOR);
         log.info("Roles initialized");
 
         Set<Role> allRights = Set.of(

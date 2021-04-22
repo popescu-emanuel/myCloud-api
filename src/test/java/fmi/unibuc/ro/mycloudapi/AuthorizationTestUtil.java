@@ -2,23 +2,24 @@ package fmi.unibuc.ro.mycloudapi;
 
 import fmi.unibuc.ro.mycloudapi.payload.request.LoginRequest;
 import fmi.unibuc.ro.mycloudapi.payload.request.SignUpRequest;
+import lombok.SneakyThrows;
+import org.apache.commons.io.IOUtils;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public abstract class AuthorizationTestUtil {
 
-    private final String MOCK_TEXT_FILE = "documents/mock-text-file.txt";
+    public final String MOCK_TEXT_FILE = "documents/mock-text-file.txt";
 
-    SignUpRequest signUpRequest;
-    LoginRequest loginRequest;
+    public static final SignUpRequest signUpRequest;
+    public static final LoginRequest loginRequest;
 
-    {
+    static {
         signUpRequest = new SignUpRequest();
         signUpRequest.setEmail("registrationTest@gmail.com");
         signUpRequest.setPassword("testPassword");
@@ -26,6 +27,20 @@ public abstract class AuthorizationTestUtil {
         loginRequest = new LoginRequest();
         loginRequest.setEmail("test@gmail.com");
         loginRequest.setPassword("testPassword");
+    }
+
+    @SneakyThrows
+    public File readResourceFromTest(String fullPath){
+        // The class loader that loaded the class
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(fullPath);
+
+        // the stream holding the file content
+        if (inputStream == null) {
+            throw new IllegalArgumentException("file not found! " + fullPath);
+        } else {
+            return new File("a");
+        }
     }
 
     public MultipartFile mockFile(){

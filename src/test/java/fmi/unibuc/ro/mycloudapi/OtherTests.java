@@ -2,7 +2,6 @@ package fmi.unibuc.ro.mycloudapi;
 
 import fmi.unibuc.ro.mycloudapi.encryption.AESUtils;
 import fmi.unibuc.ro.mycloudapi.encryption.EncryptionUtils;
-import fmi.unibuc.ro.mycloudapi.payload.request.DirectorySpecification;
 import fmi.unibuc.ro.mycloudapi.util.FileUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -14,10 +13,7 @@ import org.springframework.util.ResourceUtils;
 
 import javax.crypto.SecretKey;
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.util.Arrays;
 
@@ -68,8 +64,8 @@ public class OtherTests {
 
         final SecretKey spec1 = aesUtils.generateSecretKey(new String(hash(password)));
         final SecretKey spec2 = aesUtils.generateSecretKey(new String(hash(password2)));
-        log.info("{}", spec1.getEncoded());
-        log.info("{}", spec2.getEncoded());
+        log.debug("{}", spec1.getEncoded());
+        log.debug("{}", spec2.getEncoded());
 
 
         assert Arrays.equals(spec1.getEncoded(), spec2.getEncoded());

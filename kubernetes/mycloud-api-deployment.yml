@@ -1,0 +1,123 @@
+---
+# Define a 'PVC' for Backend Storage, dynamically provisioned by cluster
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backend-pv-claim
+  labels:
+    app: backend
+    tier: storage
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mycloud-api
+spec:
+  selector:
+    matchLabels:
+      app: mycloud-api
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: mycloud-api
+    spec:
+      containers:
+        - name: mycloud-api
+          image: popescuemanuel24/mycloud-api:1.0.0
+          imagePullPolicy: Always
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 3
+          livenessProbe:
+              httpGet:
+                path: /actuator/health
+                port: 8080
+              initialDelaySeconds: 15
+              periodSeconds: 3
+
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ANGULAR_SERVICE
+              valueFrom:
+                configMapKeyRef:
+                  name: fe-configmap
+                  key: host
+            - name: LOCALHOST_SERVICE
+              valueFrom:
+                configMapKeyRef:
+                  name: fe-configmap
+                  key: localhost
+            - name: POSTGRES_SERVICE
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: host
+            - name: POSTGRES_DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: name
+            - name: POSTGRES_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: db-user
+                  key: username
+            - name: POSTGRES_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-user
+                  key: password
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: spring-secrets
+                  key: jwtSecret
+            - name: STORAGE_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: be-configmap
+                  key: files-path
+            - name: KEYS_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: be-configmap
+                  key: keys-path
+
+          volumeMounts:
+            - name: mycloud-storage
+              mountPath: /var/lib/myCloud
+
+      volumes:
+        - name: mycloud-storage
+          persistentVolumeClaim:
+            claimName: backend-pv-claim
+
+---
+# Define 'Service' to expose Backend to other services
+apiVersion: v1
+kind: Service
+metadata:
+  name: mycloud-api
+  labels:
+    app: mycloud-api
+spec:
+  selector:
+    app: mycloud-api
+  type: NodePort
+  ports:
+    - nodePort: 30163
+      port: 8080
+      targetPort: 8080
+      protocol: TCP

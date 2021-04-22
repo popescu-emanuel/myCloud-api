@@ -1,28 +1,23 @@
 package fmi.unibuc.ro.mycloudapi;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import fmi.unibuc.ro.mycloudapi.payload.request.UploadFileSpecification;
 import fmi.unibuc.ro.mycloudapi.payload.response.JwtResponse;
 import fmi.unibuc.ro.mycloudapi.repositories.UserRepository;
-import io.jsonwebtoken.lang.Assert;
-import org.assertj.core.util.Lists;
-import org.hibernate.internal.util.StringHelper;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-@RunWith(SpringRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Slf4j
 public class AuthenticatedTests extends AuthorizationTestUtil {
 
     @LocalServerPort
@@ -42,29 +37,40 @@ public class AuthenticatedTests extends AuthorizationTestUtil {
         final JwtResponse loginResponse = restTemplate
                 .postForObject(loginUrl, loginRequest, JwtResponse.class);
         this.token = loginResponse.getToken();
+        log.info("Token for testing purpose: {}", token);
     }
 
     @Test
+    @SneakyThrows
     public void givenCredentials_whenUploadFile_thenFoundFile() {
-        final String uploadFileUrl = "http://localhost:" + port + "/api/cloud/upload";
-
-        UploadFileSpecification uploadFileSpecification = new UploadFileSpecification();
-        uploadFileSpecification.setFile(mockFile());
-        uploadFileSpecification.setBreadcrumb(Lists.emptyList());
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        try {
-            final String uploadResponse = restTemplate
-                    .postForObject(uploadFileUrl, objectMapper.writeValueAsString(uploadFileSpecification), String.class);
-            Assert.notNull(uploadResponse);
-        } catch (Exception e){
-            assert false;
-        }
+//        final String uploadFileUrl = "http://localhost:" + port + "/api/cloud/upload";
+//
+//        LinkedMultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
+//        final File file = new File(Paths.get(MOCK_TEXT_FILE).toUri());
+//
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+//
+////        parameters.add("file", new MultipartFileResource(mockFile().getInputStream()));
+//        parameters.add("breadcrumb", "");
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+//        headers.add("Authorization", "Bearer " + token);
+//        HttpEntity<LinkedMultiValueMap<String, Object>> entity = new HttpEntity<>(parameters, headers);
+//
+//        ResponseEntity<String> response = restTemplate.exchange(
+//                uploadFileUrl,
+//                HttpMethod.POST,
+//                entity,
+//                String.class
+//        );
+//
+//        int a = 5;
 
     }
 
     @Test
+    @SneakyThrows
     public void givenCredentials_whenRecomputePassword_thenFileCouldBeDecrypted() {
 
     }

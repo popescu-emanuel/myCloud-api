@@ -1,5 +1,6 @@
 package fmi.unibuc.ro.mycloudapi.security;
 
+import fmi.unibuc.ro.mycloudapi.model.ERole;
 import fmi.unibuc.ro.mycloudapi.properties.KubernetesProperties;
 import fmi.unibuc.ro.mycloudapi.security.jwt.AuthEntryPointJwt;
 import fmi.unibuc.ro.mycloudapi.security.jwt.AuthTokenFilter;
@@ -7,7 +8,6 @@ import fmi.unibuc.ro.mycloudapi.security.services.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -20,7 +20,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
@@ -47,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(("/actuator/**")).permitAll()
                     .antMatchers("/api/test/**").permitAll()
                     .antMatchers("/api/cloud/**").authenticated()
+                    .antMatchers("/api/admin/**").hasRole(ERole.ADMIN.toString())
                     .anyRequest().authenticated()
                     .and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()

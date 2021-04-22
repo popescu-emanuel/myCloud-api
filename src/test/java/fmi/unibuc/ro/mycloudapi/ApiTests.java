@@ -7,7 +7,7 @@ import fmi.unibuc.ro.mycloudapi.payload.response.UploadFileResponse;
 import fmi.unibuc.ro.mycloudapi.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class ApiTests extends AuthorizationTestUtil {
 
     private final String MOCK_TEXT_FILE = "documents/mock-text-file.txt";
 
-    @Before
+    @BeforeEach
     public void setup() {
         userRepository.deleteAll();
         restTemplate

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fe-configmap
+data:
+  host: mycloud-ui
+  localhost: 109.166.134.59

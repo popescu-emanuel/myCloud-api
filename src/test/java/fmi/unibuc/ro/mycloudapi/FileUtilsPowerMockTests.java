@@ -7,8 +7,8 @@ import fmi.unibuc.ro.mycloudapi.util.AuthenticationUtil;
 import fmi.unibuc.ro.mycloudapi.util.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class FileUtilsPowerMockTests {
     @Mock
     private FileUtils fileUtils;
 
-    @Before
+    @BeforeEach
     public void init(){
         MockitoAnnotations.initMocks(this);
     }
