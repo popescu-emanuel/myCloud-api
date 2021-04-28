@@ -1,21 +1,23 @@
 package fmi.unibuc.ro.mycloudapi;
 
-import fmi.unibuc.ro.mycloudapi.payload.request.DirectorySpecification;
 import fmi.unibuc.ro.mycloudapi.payload.request.UploadFileSpecification;
 import fmi.unibuc.ro.mycloudapi.payload.response.JwtResponse;
 import fmi.unibuc.ro.mycloudapi.payload.response.UploadFileResponse;
 import fmi.unibuc.ro.mycloudapi.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Before;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,12 +28,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
-@RunWith(SpringRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Slf4j
-public class ApiTests extends AuthorizationTestUtil {
+class ApiTests extends AuthorizationTestUtil {
 
     @LocalServerPort
     private int port;

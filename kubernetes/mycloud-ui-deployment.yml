@@ -18,6 +18,17 @@ spec:  # What state you desire for the object
           imagePullPolicy: Always
           ports:
             - containerPort: 80
+          env:
+            - name: ANGULAR_SERVICE
+              valueFrom:
+                configMapKeyRef:
+                  name: fe-configmap
+                  key: host
+            - name: KUBERNETES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: be-configmap
+                  key: kubernetes-host
 ---
 apiVersion: v1
 kind: Service

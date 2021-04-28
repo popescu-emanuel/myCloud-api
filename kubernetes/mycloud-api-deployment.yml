@@ -79,6 +79,11 @@ spec:
                 secretKeyRef:
                   name: db-user
                   key: password
+            - name: KUBERNETES_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: be-configmap
+                  key: kubernetes-host
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:

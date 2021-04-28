@@ -3,19 +3,21 @@ package fmi.unibuc.ro.mycloudapi;
 import fmi.unibuc.ro.mycloudapi.payload.response.JwtResponse;
 import fmi.unibuc.ro.mycloudapi.repositories.UserRepository;
 import io.jsonwebtoken.lang.Assert;
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class NotAuthenticatedTests extends AuthorizationTestUtil {
+class NotAuthenticatedTests extends AuthorizationTestUtil {
 
     @LocalServerPort
     private int port;
@@ -25,6 +27,11 @@ public class NotAuthenticatedTests extends AuthorizationTestUtil {
 
     @Autowired
     private TestRestTemplate restTemplate;
+
+    @BeforeEach
+    public void init(){
+        userRepository.deleteAll();
+    }
 
     @Test
     public void whenNoAuth_thenProvidePublicContent() {
@@ -44,6 +51,11 @@ public class NotAuthenticatedTests extends AuthorizationTestUtil {
 
     @Test
     public void givenLoginRequest_whenAuth_thenReceiveToken() {
+        // Register
+        final String url = "http://localhost:" + port + "/api/auth/signup";
+        final String response = this.restTemplate.postForObject(url, loginRequest, String.class);
+
+        // Login
         final String loginUrl = "http://localhost:" + port + "/api/auth/signin";
         final JwtResponse loginResponse = restTemplate
                 .postForObject(loginUrl, loginRequest, JwtResponse.class);
