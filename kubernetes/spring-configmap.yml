@@ -6,4 +6,4 @@ data:
   base-path: /var/lib/myCloud
   keys-path: /var/lib/myCloud/cloudKeys
   files-path: /var/lib/myCloud/cloudFiles
-  kubernetes-host: 172.27.217.24
+  kubernetes-host: 172.21.43.6

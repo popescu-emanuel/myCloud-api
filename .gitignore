@@ -3,3 +3,4 @@ target/
 *.iml
 mvnw
 mvnw.cmd
+/src/main/resources/reports/

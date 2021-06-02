@@ -18,6 +18,7 @@ public abstract class AuthorizationTestUtil {
 
     public static final SignUpRequest signUpRequest;
     public static final LoginRequest loginRequest;
+    public static final LoginRequest invalidLoginRequest;
 
     static {
         signUpRequest = new SignUpRequest();
@@ -26,6 +27,10 @@ public abstract class AuthorizationTestUtil {
 
         loginRequest = new LoginRequest();
         loginRequest.setEmail("test@gmail.com");
+        loginRequest.setPassword("testPassword");
+
+        invalidLoginRequest = new LoginRequest();
+        loginRequest.setEmail("invalid@gmail.com");
         loginRequest.setPassword("testPassword");
     }
 
