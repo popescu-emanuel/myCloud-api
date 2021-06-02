@@ -112,6 +112,8 @@ public class FileUtils {
         }
 
         String filename = uploadFileSpecification.getFile().getOriginalFilename();
+        filename = "disertatie_" + filename;
+
         filename = sanitizeFilename(filename);
         storageLocation = storageLocation.resolve(filename);
 
