@@ -95,7 +95,7 @@ public class UserService {
         final String usedMemoryDisplay = org.apache.commons.io.FileUtils.byteCountToDisplaySize(usedMemory);
 
         MemoryAllocationResponse memoryAllocationResponse = new MemoryAllocationResponse(
-                totalMemory + "GB",
+                totalMemory + " GB",
                 freeMemoryDisplay,
                 usedMemoryDisplay
         );

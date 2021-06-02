@@ -67,9 +67,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 kubernetesProperties.getHost(),
                 kubernetesProperties.getUiPort());
 
+        String localHost = String.format("http://%s:%s",
+                "localhost",
+                "4200");
+
         configuration.setAllowedOrigins(Arrays.asList(
                 apiHost,
-                uiHost
+                uiHost,
+                localHost
         ));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
