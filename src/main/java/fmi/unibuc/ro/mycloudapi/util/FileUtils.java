@@ -30,6 +30,8 @@ public class FileUtils {
     final String CLOUD_STORAGE_EMAIL_TEMPLATE;
     final String CLOUD_KEYS_EMAIL_TEMPLATE;
 
+    private boolean DEMO_ON = true;
+
 
     public FileUtils(FileStorageProperties fileStorageProperties, AuthenticationUtil authenticationUtil) {
         this.authenticationUtil = authenticationUtil;
@@ -112,7 +114,10 @@ public class FileUtils {
         }
 
         String filename = uploadFileSpecification.getFile().getOriginalFilename();
-        filename = "disertatie_" + filename;
+
+        if(DEMO_ON){
+            filename = "disertatie_" + filename;
+        }
 
         filename = sanitizeFilename(filename);
         storageLocation = storageLocation.resolve(filename);
@@ -130,6 +135,10 @@ public class FileUtils {
         String filename = uploadFileSpecification.getFile().getOriginalFilename();
         filename = FilenameUtils.getBaseName(filename);
         filename = sanitizeFilename(filename);
+
+        if(DEMO_ON){
+            filename = "disertatie_" + filename;
+        }
 
         keysLocation = keysLocation.resolve(filename);
 
