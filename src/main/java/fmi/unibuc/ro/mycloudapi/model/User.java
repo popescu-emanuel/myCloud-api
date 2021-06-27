@@ -39,7 +39,7 @@ public class User {
     private String password;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "size_plan")
     private SizePlan sizePlan;
 
     @ManyToMany(fetch = FetchType.EAGER)

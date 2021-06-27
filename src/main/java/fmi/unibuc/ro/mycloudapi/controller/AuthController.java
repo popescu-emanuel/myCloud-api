@@ -11,6 +11,7 @@ import fmi.unibuc.ro.mycloudapi.repositories.RoleRepository;
 import fmi.unibuc.ro.mycloudapi.repositories.UserRepository;
 import fmi.unibuc.ro.mycloudapi.security.jwt.JwtUtils;
 import fmi.unibuc.ro.mycloudapi.security.services.UserDetailsImpl;
+import fmi.unibuc.ro.mycloudapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,8 +38,8 @@ import java.util.stream.Collectors;
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final PasswordEncoder encoder;
+    private final UserService userService;
+
     private final JwtUtils jwtUtils;
 
     @PostMapping("/signin")
@@ -65,7 +66,8 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getEmail(),
-                roles));
+                roles,
+                userRepository.findById(userDetails.getId()).get().getSizePlan()));
     }
 
     @PostMapping("/signup")
@@ -76,46 +78,9 @@ public class AuthController {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
-        // Create new user's account
-        User user = new User(
-                signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()
-                )
-        );
-
-        Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
-
-        if (strRoles == null) {
-            Role userRole = roleRepository.findByName(ERole.USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(adminRole);
-
-                        break;
-                    case "mod":
-                        Role modRole = roleRepository.findByName(ERole.MODERATOR)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
-
-                        break;
-                    default:
-                        Role userRole = roleRepository.findByName(ERole.USER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(userRole);
-                }
-            });
-        }
-
-        user.setRoles(roles);
-        userRepository.save(user);
-
+        userService.fromRegisterRequestCreateUser(signUpRequest);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
+
+
 }

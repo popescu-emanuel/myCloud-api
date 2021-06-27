@@ -1,8 +1,11 @@
 package fmi.unibuc.ro.mycloudapi.service;
 
 import fmi.unibuc.ro.mycloudapi.exception.database.DuplicateEmailException;
-import fmi.unibuc.ro.mycloudapi.model.User;
+import fmi.unibuc.ro.mycloudapi.model.*;
+import fmi.unibuc.ro.mycloudapi.payload.request.SignUpRequest;
 import fmi.unibuc.ro.mycloudapi.payload.response.MemoryAllocationResponse;
+import fmi.unibuc.ro.mycloudapi.repositories.RoleRepository;
+import fmi.unibuc.ro.mycloudapi.repositories.SizePlanRepository;
 import fmi.unibuc.ro.mycloudapi.repositories.UserRepository;
 import fmi.unibuc.ro.mycloudapi.util.FileUtils;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +18,18 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class UserService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final SizePlanRepository sizePlanRepository;
     private final PasswordEncoder passwordEncoder;
     private final FileUtils fileUtils;
 
@@ -65,6 +73,10 @@ public class UserService {
         throw new UsernameNotFoundException(oldEmail);
     }
 
+    public List<SizePlan> getSubscriptionTypes(){
+        return sizePlanRepository.findAll();
+    }
+
     public MemoryAllocationResponse getDataUsage(String email) throws IOException {
         final Optional<User> user = userRepository.findByEmail(email);
         if(user.isEmpty()){
@@ -101,6 +113,54 @@ public class UserService {
         );
 
         return memoryAllocationResponse;
+    }
+
+    public void fromRegisterRequestCreateUser(SignUpRequest signUpRequest) {
+        User user = new User(
+                signUpRequest.getEmail(),
+                passwordEncoder.encode(signUpRequest.getPassword()
+                )
+        );
+        givePrivilegesBasedOnRolesList(user, signUpRequest);
+        giveBasicSubscription(user);
+        userRepository.save(user);
+    }
+
+    private void giveBasicSubscription(User user) {
+        SizePlan basicSizePlan = sizePlanRepository.findSizePlanByType(SubscriptionType.BASIC);
+        user.setSizePlan(basicSizePlan);
+    }
+
+    private void givePrivilegesBasedOnRolesList(User user, SignUpRequest signUpRequest) {
+        Set<String> strRoles = signUpRequest.getRole();
+        Set<Role> roles = new HashSet<>();
+        if (strRoles == null) {
+            Role userRole = roleRepository.findByName(ERole.USER)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRole);
+        } else {
+            strRoles.forEach(role -> {
+                switch (role) {
+                    case "admin":
+                        Role adminRole = roleRepository.findByName(ERole.ADMIN)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(adminRole);
+
+                        break;
+                    case "mod":
+                        Role modRole = roleRepository.findByName(ERole.MODERATOR)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(modRole);
+
+                        break;
+                    default:
+                        Role userRole = roleRepository.findByName(ERole.USER)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(userRole);
+                }
+            });
+        }
+        user.setRoles(roles);
     }
 
 }

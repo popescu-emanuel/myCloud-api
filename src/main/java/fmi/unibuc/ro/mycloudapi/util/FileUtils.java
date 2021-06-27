@@ -30,8 +30,7 @@ public class FileUtils {
     final String CLOUD_STORAGE_EMAIL_TEMPLATE;
     final String CLOUD_KEYS_EMAIL_TEMPLATE;
 
-    private boolean DEMO_ON = false;
-
+    private final boolean DEMO_ON = false;
 
     public FileUtils(FileStorageProperties fileStorageProperties, AuthenticationUtil authenticationUtil) {
         this.authenticationUtil = authenticationUtil;

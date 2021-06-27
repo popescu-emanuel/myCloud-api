@@ -1,7 +1,5 @@
 package fmi.unibuc.ro.mycloudapi.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import fmi.unibuc.ro.mycloudapi.encryption.EncryptionUtils;
 import fmi.unibuc.ro.mycloudapi.payload.request.DirectorySpecification;
 import fmi.unibuc.ro.mycloudapi.payload.request.ResetPasswordRequest;
@@ -10,7 +8,6 @@ import fmi.unibuc.ro.mycloudapi.payload.request.UploadFileSpecification;
 import fmi.unibuc.ro.mycloudapi.payload.response.FileResponse;
 import fmi.unibuc.ro.mycloudapi.payload.response.MemoryAllocationResponse;
 import fmi.unibuc.ro.mycloudapi.payload.response.UploadFileResponse;
-import fmi.unibuc.ro.mycloudapi.repositories.UserRepository;
 import fmi.unibuc.ro.mycloudapi.service.FileStorageService;
 import fmi.unibuc.ro.mycloudapi.service.UserService;
 import fmi.unibuc.ro.mycloudapi.util.AuthenticationUtil;
@@ -18,20 +15,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.coyote.Response;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -45,7 +39,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -94,7 +87,7 @@ public class CloudController {
     public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) {
         try {
             final boolean checkPassword = userService.checkPassword(authenticationUtil.getLoggedInUserEmail(), resetPasswordRequest.getOldPassword());
-            if(!checkPassword){
+            if (!checkPassword) {
                 log.warn("Password does not match");
                 return ResponseEntity.badRequest().build();
             }
@@ -160,7 +153,7 @@ public class CloudController {
                     .map(this::mapFileToFileResponse)
                     .collect(Collectors.toList());
             return ResponseEntity.ok(fr);
-        } catch (InvalidPathException e){
+        } catch (InvalidPathException e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -185,15 +178,24 @@ public class CloudController {
     }
 
     @PostMapping(value = "/size")
-    public ResponseEntity getMemoryAllocationData(){
+    public ResponseEntity getMemoryAllocationData() {
         try {
-            final MemoryAllocationResponse dataUsage = userService.getDataUsage(authenticationUtil.getLoggedInUserEmail());
+            final MemoryAllocationResponse dataUsage = userService.getDataUsage(
+                    authenticationUtil.getLoggedInUserEmail()
+            );
             return ResponseEntity.ok(dataUsage);
         } catch (IOException exception) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Could not process the request. Please try again later");
         }
+    }
+
+    @GetMapping(value = "/size")
+    public ResponseEntity getSizePlans() {
+        return ResponseEntity
+                .ok()
+                .body(userService.getSubscriptionTypes());
     }
 
     private String breadcrumbToFolderPath(List<String> breadcrumb) {
